@@ -22,7 +22,7 @@ namespace ParkMinPackages.Foundation.Extensions
 		
 		public static TDependencyBehaviour AddDependencyBehaviour<TDependencyBehaviour>(
 			this GameObject target,
-			Action<TDependencyBehaviour> dependencySetter = null
+			Action<TDependencyBehaviour> dependencySetter
 		) where TDependencyBehaviour : DependencyBehaviour {
 			if (target == null)
 				throw new ArgumentNullException(nameof(target));
