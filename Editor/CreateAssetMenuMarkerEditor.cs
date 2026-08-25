@@ -10,7 +10,7 @@ namespace ParkMinPackages.Foundation.Editor
 	public static class CreateAssetMenuMarkerEditor
 	{
 		// - Statics -
-		[MenuItem("Assets/Create/Project", false, -1000)]
+		[MenuItem("Assets/Create/Project", false, 0)]
 		public static void OpenCreateAssetMenu() {
 			GenericMenu menu = new GenericMenu();
 			Type[] markerInterfaceTypes = TypeCache
