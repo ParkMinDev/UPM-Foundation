@@ -8,10 +8,6 @@ namespace ParkMinPackages.Foundation.Components
 	public abstract class ExtendedBehaviour : MonoBehaviour, IDisposable
 	{
 		//Public Methods-------------------------------------------------------------------------------------------
-		public bool IsStarted
-		{
-			get { return _isStarted; }
-		}
 		public void Dispose() {
 			if (_isDisposed) {
 				return;
@@ -19,10 +15,18 @@ namespace ParkMinPackages.Foundation.Components
 
 			_isDisposed = true;
 			enabled = false;
-			Destroy(this);
+			if (Application.IsPlaying(gameObject)) {
+				Destroy(this);
+			}
+			else {
+				DestroyImmediate(this);
+			}
 		}
 		//Public Properties----------------------------------------------------------------------------------------
-
+		public bool IsStarted
+		{
+			get { return _isStarted; }
+		}
 		//Events---------------------------------------------------------------------------------------------------
 
 		//Handlers-------------------------------------------------------------------------------------------------
@@ -34,6 +38,9 @@ namespace ParkMinPackages.Foundation.Components
 		protected virtual void OnReady() {
 			_r3UpdateMethodsDisposable?.Dispose();
 			_r3UpdateMethodsDisposable = null;
+			if (Application.IsPlaying(gameObject) == false) {
+				return;
+			}
 
 			if (this is IR3EarlyUpdatable earlyUpdatable) {
 				_r3UpdateMethodsDisposable ??= new CompositeDisposable();
@@ -72,24 +79,71 @@ namespace ParkMinPackages.Foundation.Components
 			OnReady();
 			_isStarted = true;
 		}
+#if UNITY_EDITOR
+		protected void Update() {
+			if (Application.IsPlaying(gameObject)) {
+				return;
+			}
+
+			if (this is IR3EarlyUpdatable earlyUpdatable) {
+				earlyUpdatable.R3EarlyUpdate();
+			}
+			if (this is IR3PreUpdatable preUpdatable) {
+				preUpdatable.R3PreUpdate();
+			}
+			if (this is IR3Updatable updatable) {
+				updatable.R3Update();
+			}
+			if (this is IR3TimeUpdatable timeUpdatable) {
+				timeUpdatable.R3TimeUpdate();
+			}
+		}
+		protected void FixedUpdate() {
+			if (Application.IsPlaying(gameObject)) {
+				return;
+			}
+
+			if (this is IR3FixedUpdatable fixedUpdatable) {
+				fixedUpdatable.R3FixedUpdate();
+			}
+			if (this is IR3PostFixedUpdatable postFixedUpdatable) {
+				postFixedUpdatable.R3PostFixedUpdate();
+			}
+		}
+		protected void LateUpdate() {
+			if (Application.IsPlaying(gameObject)) {
+				return;
+			}
+
+			if (this is IR3PreLateUpdatable preLateUpdatable) {
+				preLateUpdatable.R3PreLateUpdate();
+			}
+			if (this is IR3PostLateUpdatable postLateUpdatable) {
+				postLateUpdatable.R3PostLateUpdate();
+			}
+		}
+#endif
 		protected virtual void OnDisable() {
 			_r3UpdateMethodsDisposable?.Dispose();
 			_r3UpdateMethodsDisposable = null;
-			if (Application.exitCancellationToken.IsCancellationRequested == false) {
+			if (Application.exitCancellationToken.IsCancellationRequested == false &&
+			    Application.IsPlaying(gameObject)) {
 				OnDisableDuringRuntime();
 			}
 		}
 		protected virtual void OnDestroy() {
-			if (Application.exitCancellationToken.IsCancellationRequested == false) {
+			_r3UpdateMethodsDisposable?.Dispose();
+			_r3UpdateMethodsDisposable = null;
+			if (Application.exitCancellationToken.IsCancellationRequested == false &&
+			    Application.IsPlaying(gameObject)) {
 				OnDestroyDuringRuntime();
 			}
 		}
+		protected virtual void OnDisableDuringRuntime() { }
+		protected virtual void OnDestroyDuringRuntime() { }
 		//Internals---------------------------------------------------------------------------------------
 		bool _isDisposed;
 		bool _isStarted;
 		CompositeDisposable _r3UpdateMethodsDisposable;
-
-		protected virtual void OnDisableDuringRuntime() { }
-		protected virtual void OnDestroyDuringRuntime() { }
 	}
 }

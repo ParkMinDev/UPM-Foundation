@@ -1,4 +1,5 @@
 using System;
+using ParkMinPackages.Foundation.Components;
 using UnityEngine;
 
 namespace ParkMinPackages.Foundation.Extensions
@@ -25,6 +26,36 @@ namespace ParkMinPackages.Foundation.Extensions
 				return t;
 			else
 				return component.AddComponent<T>();
+		}
+
+		public static TDependencyBehaviour AddDependencyBehaviour<TDependencyBehaviour>(
+			this Component target,
+			Action<TDependencyBehaviour> dependencySetter = null
+		) where TDependencyBehaviour : DependencyBehaviour {
+			if (target == null)
+				throw new ArgumentNullException(nameof(target));
+
+			return target.gameObject.AddDependencyBehaviour(dependencySetter);
+		}
+
+		public static TDependencyBehaviour GetDependencyBehaviour<TDependencyBehaviour>(
+			this Component target,
+			Action<TDependencyBehaviour> dependencySetter = null
+		) where TDependencyBehaviour : DependencyBehaviour {
+			if (target == null)
+				throw new ArgumentNullException(nameof(target));
+
+			return target.gameObject.GetDependencyBehaviour(dependencySetter);
+		}
+
+		public static TDependencyBehaviour GetOrAddDependencyBehaviour<TDependencyBehaviour>(
+			this Component target,
+			Action<TDependencyBehaviour> dependencySetter = null
+		) where TDependencyBehaviour : DependencyBehaviour {
+			if (target == null)
+				throw new ArgumentNullException(nameof(target));
+
+			return target.gameObject.GetOrAddDependencyBehaviour(dependencySetter);
 		}
 	}
 }

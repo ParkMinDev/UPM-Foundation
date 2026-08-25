@@ -4,6 +4,20 @@ All notable changes to this package will be documented in this file.
 The format is based on [Keep a Changelog](http://keepachangelog.com/en/1.0.0/)
 and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.html).
 
+## [8.0.0] - 2026-08-25
+
+### Breaking Changes
+- Moved dependency validation from `ExtendedBehaviour` to the new `DependencyBehaviour` base class.
+- Replaced the dependency-aware `AddExtendedBehaviour` and `GetOrAddExtendedBehaviour` extensions with `AddDependencyBehaviour`, `GetDependencyBehaviour`, and `GetOrAddDependencyBehaviour`.
+
+### Added
+- Added `DependencyBehaviour` for components whose dependencies can be injected at edit time or runtime.
+- Added reusable inspector header constants for required, injectable, optional, and settings fields.
+
+### Changed
+- Executed R3 update interfaces through Unity update callbacks while outside Play Mode and limited R3 subscriptions to Play Mode.
+- Made `ExtendedBehaviour` disposal safe for edit-time component removal and simplified its editor lifecycle handling.
+
 ## [7.0.0] - 2026-08-22
 
 ### Breaking Changes
