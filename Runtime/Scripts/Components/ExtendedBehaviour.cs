@@ -9,7 +9,7 @@ namespace ParkMinPackages.Foundation.Components
 	{
 		//Public Methods-------------------------------------------------------------------------------------------
 		public void Dispose() {
-			if (_isDisposed) {
+			if (_isDisposed || this == null) {
 				return;
 			}
 
@@ -132,6 +132,7 @@ namespace ParkMinPackages.Foundation.Components
 			}
 		}
 		protected virtual void OnDestroy() {
+			_isDisposed = true;
 			_r3UpdateMethodsDisposable?.Dispose();
 			_r3UpdateMethodsDisposable = null;
 			if (Application.exitCancellationToken.IsCancellationRequested == false &&
