@@ -4,6 +4,17 @@ All notable changes to this package will be documented in this file.
 The format is based on [Keep a Changelog](http://keepachangelog.com/en/1.0.0/)
 and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.html).
 
+## [10.0.0] - 2026-08-30
+
+### Breaking Changes
+- Removed `DependencyBehaviour` and its component and GameObject extension methods.
+
+### Added
+- Added the owner-based `Feature<TOwner>` component, feature lifecycle contracts, and component extensions for adding and retrieving features.
+- Added `SerializableValue<T>` for serializing class-based inline values, Unity object references, and managed references through one API.
+- Added a context-aware `SerializableValue<T>` inspector with scene, Prefab Mode, and ScriptableObject selection support.
+- Added editor tests covering serialization modes, prefab workflows, missing references, object lookup, and undo behavior.
+
 ## [9.0.2] - 2026-08-27
 
 ### Fixed

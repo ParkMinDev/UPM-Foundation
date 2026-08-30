@@ -1,0 +1,18 @@
+{
+  "name": "ParkMinPackages.Foundation.Tests.Runtime",
+  "rootNamespace": "ParkMinPackages.Foundation.Tests",
+  "references": [
+    "GUID:71a72178c26810b4fb6e1516407e5558"
+  ],
+  "includePlatforms": [],
+  "excludePlatforms": [],
+  "allowUnsafeCode": false,
+  "overrideReferences": false,
+  "precompiledReferences": [],
+  "autoReferenced": false,
+  "defineConstraints": [
+    "UNITY_INCLUDE_TESTS"
+  ],
+  "versionDefines": [],
+  "noEngineReferences": false
+}

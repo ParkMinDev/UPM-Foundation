@@ -1,3 +1,4 @@
+using UnityEngine;
 #if UNITY_EDITOR
 using System;
 using System.Collections.Generic;
@@ -6,7 +7,6 @@ using Sirenix.OdinInspector;
 using UnityEditor;
 using UnityEngine.Serialization;
 #endif
-using UnityEngine;
 
 namespace ParkMinPackages.Foundation.Components.Helpers
 {
