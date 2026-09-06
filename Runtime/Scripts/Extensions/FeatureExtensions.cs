@@ -1,4 +1,5 @@
 using System;
+using ParkMinPackages.Foundation.Components;
 using ParkMinPackages.Foundation.Interfaces;
 using UnityEngine;
 
@@ -33,12 +34,13 @@ namespace ParkMinPackages.Foundation.Extensions
 			if (owner == null)
 				throw new ArgumentNullException(nameof(owner));
 
-			if (owner.TryGetComponent(out TFeature feature) == false)
-				throw new MissingComponentException($"{typeof(TFeature).Name} was not found on {owner.name}.");
-			if (feature.IsOwner(owner) == false)
-				throw new InvalidOperationException($"{typeof(TFeature).Name} is assigned to another owner.");
+			TFeature[] features = owner.GetComponents<TFeature>();
+			foreach (TFeature feature in features) {
+				if (feature.IsOwner(owner))
+					return feature;
+			}
 
-			return feature;
+			throw new MissingComponentException($"{typeof(TFeature).Name} owned by {owner.name} was not found.");
 		}
 
 		public static TFeature GetOrAddFeature<TFeature>(
@@ -47,12 +49,32 @@ namespace ParkMinPackages.Foundation.Extensions
 			if (owner == null)
 				throw new ArgumentNullException(nameof(owner));
 
-			if (owner.TryGetComponent(out TFeature feature) == false)
-				return owner.AddFeature<TFeature>();
-			if (feature.IsOwner(owner) == false)
-				throw new InvalidOperationException($"{typeof(TFeature).Name} is assigned to another owner.");
+			TFeature[] features = owner.GetComponents<TFeature>();
+			foreach (TFeature feature in features) {
+				if (feature.IsOwner(owner))
+					return feature;
+			}
 
-			return feature;
+			return owner.AddFeature<TFeature>();
+		}
+
+		public static int RemoveFeatures<TFeature>(
+			this Component owner
+		) where TFeature : ExtendedBehaviour, IFeature {
+			if (owner == null)
+				throw new ArgumentNullException(nameof(owner));
+
+			TFeature[] features = owner.GetComponents<TFeature>();
+			int removedCount = 0;
+			foreach (TFeature feature in features) {
+				if (feature == null || feature.IsOwner(owner) == false)
+					continue;
+
+				feature.Dispose();
+				removedCount++;
+			}
+
+			return removedCount;
 		}
 	}
 }
