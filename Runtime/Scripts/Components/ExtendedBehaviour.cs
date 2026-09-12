@@ -14,7 +14,6 @@ namespace ParkMinPackages.Foundation.Components
 			}
 
 			_isDisposed = true;
-			enabled = false;
 			if (Application.IsPlaying(gameObject)) {
 				Destroy(this);
 			}
