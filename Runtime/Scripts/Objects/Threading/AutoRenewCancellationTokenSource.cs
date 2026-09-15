@@ -58,20 +58,6 @@ namespace ParkMinPackages.Foundation.Objects.Threading
 			cancellationTokenSource.CancelAndDispose();
 		}
 
-		// - Public Properties -
-		public CancellationToken Token
-		{
-			get
-			{
-				lock (_gate) {
-					if (_isDisposed) {
-						throw new ObjectDisposedException(nameof(AutoRenewCancellationTokenSource));
-					}
-					return _cancellationTokenSource?.Token ?? CancellationToken.None;
-				}
-			}
-		}
-
 		// - Internals -
 		readonly object _gate = new object();
 		CancellationTokenSource _cancellationTokenSource;
