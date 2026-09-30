@@ -180,7 +180,12 @@ namespace ParkMinPackages.Foundation.Components.Helpers
 		[SerializeField] SceneVisibilityController _sceneVisibilityController = new SceneVisibilityController();
 
 		void HandleEditorUpdate() {
-			if (Application.isPlaying) {
+			if (this == null) {
+				EditorApplication.update -= HandleEditorUpdate;
+				return;
+			}
+
+			if (!isActiveAndEnabled || Application.isPlaying) {
 				return;
 			}
 
