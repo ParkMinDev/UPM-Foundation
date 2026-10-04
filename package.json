@@ -2,15 +2,15 @@
   "name": "com.parkminpackages.foundation",
   "displayName": "ParkMinPackages.Foundation",
   "license": "MIT",
-  "documentationUrl": "https://github.com/ParkMinPackages/Foundation#readme",
-  "changelogUrl": "https://github.com/ParkMinPackages/Foundation/blob/main/CHANGELOG.md",
-  "licensesUrl": "https://github.com/ParkMinPackages/Foundation/blob/main/LICENSE.md",
-  "version": "10.1.2",
+  "documentationUrl": "https://github.com/ParkMinDev/Foundation#readme",
+  "changelogUrl": "https://github.com/ParkMinDev/Foundation/blob/main/CHANGELOG.md",
+  "licensesUrl": "https://github.com/ParkMinDev/Foundation/blob/main/LICENSE.md",
+  "version": "10.1.3",
   "unity": "6000.5",
   "description": "Unity package maintained by ParkMinPackages.",
   "author": {
     "name": "ParkMinPackages",
-    "url": "https://github.com/ParkMinPackages"
+    "url": "https://github.com/ParkMinDev"
   },
   "dependencies": {}
 }
