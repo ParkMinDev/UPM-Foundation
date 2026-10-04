@@ -1,8 +1,9 @@
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
-namespace ParkMinPackages.Foundation.Components
+namespace ParkMinDev.UPM.Foundation.Components
 {
+	[UnityEngine.Scripting.APIUpdating.MovedFrom(true, sourceNamespace: "ParkMinPackages.Foundation.Components", sourceAssembly: "ParkMinPackages.Foundation", sourceClassName: "EditorPlayBehaviour")]
 	public abstract class EditorPlayBehaviour : MonoBehaviour
 	{
 		static Scene _initialScene;

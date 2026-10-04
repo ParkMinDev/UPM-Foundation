@@ -4,15 +4,15 @@ using System.IO;
 using System.Linq;
 using System.Reflection;
 using NUnit.Framework;
-using ParkMinPackages.Foundation.Objects.Datas;
-using ParkMinPackages.Foundation.Tests;
+using ParkMinDev.UPM.Foundation.Objects.Datas;
+using ParkMinDev.UPM.Foundation.Tests;
 using UnityEditor;
 using UnityEditor.SceneManagement;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 using Object = UnityEngine.Object;
 
-namespace ParkMinPackages.Foundation.Editor.Tests
+namespace ParkMinDev.UPM.Foundation.Editor.Tests
 {
 	public sealed class SerializableValueTests
 	{

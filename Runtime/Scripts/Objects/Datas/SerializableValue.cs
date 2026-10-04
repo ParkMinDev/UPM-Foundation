@@ -4,10 +4,10 @@ using System.Reflection;
 using System.Runtime.CompilerServices;
 using UnityEngine;
 
-[assembly: InternalsVisibleTo("ParkMinPackages.Foundation.Editor")]
-[assembly: InternalsVisibleTo("ParkMinPackages.Foundation.Editor.Tests")]
+[assembly: InternalsVisibleTo("ParkMinDev.UPM.Foundation.Editor")]
+[assembly: InternalsVisibleTo("ParkMinDev.UPM.Foundation.Editor.Tests")]
 
-namespace ParkMinPackages.Foundation.Objects.Datas
+namespace ParkMinDev.UPM.Foundation.Objects.Datas
 {
 	public enum SerializableValueStatus
 	{
@@ -25,6 +25,7 @@ namespace ParkMinPackages.Foundation.Objects.Datas
 		ManagedReference = 3
 	}
 
+	[UnityEngine.Scripting.APIUpdating.MovedFrom(true, sourceNamespace: "ParkMinPackages.Foundation.Objects.Datas", sourceAssembly: "ParkMinPackages.Foundation", sourceClassName: "SerializableValue`1")]
 	[Serializable] public sealed class SerializableValue<T> where T : class
 	{
 		// - Statics -

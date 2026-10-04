@@ -1,8 +1,8 @@
 using System;
 using System.Threading;
-using ParkMinPackages.Foundation.Extensions;
+using ParkMinDev.UPM.Foundation.Extensions;
 
-namespace ParkMinPackages.Foundation.Objects.Threading
+namespace ParkMinDev.UPM.Foundation.Objects.Threading
 {
 	public sealed class AutoRenewCancellationTokenSource : IDisposable
 	{

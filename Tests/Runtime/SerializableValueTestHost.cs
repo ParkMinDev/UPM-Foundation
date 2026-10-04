@@ -1,7 +1,7 @@
-using ParkMinPackages.Foundation.Objects.Datas;
+using ParkMinDev.UPM.Foundation.Objects.Datas;
 using UnityEngine;
 
-namespace ParkMinPackages.Foundation.Tests
+namespace ParkMinDev.UPM.Foundation.Tests
 {
 	public sealed class SerializableValueTestHost : MonoBehaviour
 	{

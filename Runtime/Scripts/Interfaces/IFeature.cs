@@ -1,6 +1,6 @@
 using UnityEngine;
 
-namespace ParkMinPackages.Foundation.Interfaces
+namespace ParkMinDev.UPM.Foundation.Interfaces
 {
 	public interface IFeature : IDependencyValidator
 	{

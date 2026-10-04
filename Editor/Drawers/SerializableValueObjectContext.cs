@@ -7,7 +7,7 @@ using UnityEngine;
 using UnityEngine.SceneManagement;
 using Object = UnityEngine.Object;
 
-namespace ParkMinPackages.Foundation.Editor
+namespace ParkMinDev.UPM.Foundation.Editor
 {
 	internal enum SerializableValueObjectContextKind
 	{

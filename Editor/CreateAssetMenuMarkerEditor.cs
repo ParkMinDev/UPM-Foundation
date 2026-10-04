@@ -1,11 +1,11 @@
 using System;
 using System.Linq;
 using System.Reflection;
-using ParkMinPackages.Foundation.Attributes;
+using ParkMinDev.UPM.Foundation.Attributes;
 using UnityEditor;
 using UnityEngine;
 
-namespace ParkMinPackages.Foundation.Editor
+namespace ParkMinDev.UPM.Foundation.Editor
 {
 	public static class CreateAssetMenuMarkerEditor
 	{

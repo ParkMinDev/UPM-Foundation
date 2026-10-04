@@ -1,7 +1,8 @@
 using UnityEngine;
 
-namespace ParkMinPackages.Foundation.Objects.Datas
+namespace ParkMinDev.UPM.Foundation.Objects.Datas
 {
+	[UnityEngine.Scripting.APIUpdating.MovedFrom(true, sourceNamespace: "ParkMinPackages.Foundation.Objects.Datas", sourceAssembly: "ParkMinPackages.Foundation", sourceClassName: "ClampedInt")]
 	[System.Serializable]
 	public class ClampedInt
 	{

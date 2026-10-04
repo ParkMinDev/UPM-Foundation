@@ -1,6 +1,6 @@
 using System;
 
-namespace ParkMinPackages.Foundation.Attributes
+namespace ParkMinDev.UPM.Foundation.Attributes
 {
 	[AttributeUsage(AttributeTargets.Interface, AllowMultiple = false, Inherited = false)]
 	public sealed class CreateAssetMenuMarkerAttribute : Attribute

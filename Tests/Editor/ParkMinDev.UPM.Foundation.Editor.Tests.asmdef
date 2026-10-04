@@ -1,10 +1,10 @@
 {
-  "name": "ParkMinPackages.Foundation.Editor.Tests",
-  "rootNamespace": "ParkMinPackages.Foundation.Editor.Tests",
+  "name": "ParkMinDev.UPM.Foundation.Editor.Tests",
+  "rootNamespace": "ParkMinDev.UPM.Foundation.Editor.Tests",
   "references": [
     "GUID:71a72178c26810b4fb6e1516407e5558",
     "GUID:87a8bc84e01f4704ab5106590b69e95f",
-    "ParkMinPackages.Foundation.Tests.Runtime"
+    "ParkMinDev.UPM.Foundation.Tests.Runtime"
   ],
   "includePlatforms": [
     "Editor"

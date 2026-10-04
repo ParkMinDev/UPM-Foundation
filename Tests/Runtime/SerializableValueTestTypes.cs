@@ -1,7 +1,7 @@
 using System;
 using UnityEngine;
 
-namespace ParkMinPackages.Foundation.Tests
+namespace ParkMinDev.UPM.Foundation.Tests
 {
 	public interface ISerializableValueTest
 	{

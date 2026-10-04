@@ -1,3 +1,3 @@
 using System.Runtime.CompilerServices;
 
-[assembly: InternalsVisibleTo("ParkMinPackages.Foundation.Editor.Tests")]
+[assembly: InternalsVisibleTo("ParkMinDev.UPM.Foundation.Editor.Tests")]

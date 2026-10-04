@@ -1,12 +1,13 @@
 using System;
 using System.Linq;
-using ParkMinPackages.Foundation.Constants;
-using ParkMinPackages.Foundation.Interfaces;
-using ParkMinPackages.Foundation.Objects.Datas;
+using ParkMinDev.UPM.Foundation.Constants;
+using ParkMinDev.UPM.Foundation.Interfaces;
+using ParkMinDev.UPM.Foundation.Objects.Datas;
 using UnityEngine;
 
-namespace ParkMinPackages.Foundation.Components
+namespace ParkMinDev.UPM.Foundation.Components
 {
+	[UnityEngine.Scripting.APIUpdating.MovedFrom(true, sourceNamespace: "ParkMinPackages.Foundation.Components", sourceAssembly: "ParkMinPackages.Foundation", sourceClassName: "Feature`1")]
 	[DefaultExecutionOrder(1)]
 	public abstract class Feature<TOwner> : ExtendedBehaviour, IInitializable<TOwner>, IFeature where TOwner : class
 	{

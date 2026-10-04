@@ -6,7 +6,7 @@ using UnityEditor.IMGUI.Controls;
 using UnityEngine;
 using Object = UnityEngine.Object;
 
-namespace ParkMinPackages.Foundation.Editor
+namespace ParkMinDev.UPM.Foundation.Editor
 {
 	internal sealed class SerializableValueObjectDropdown : AdvancedDropdown
 	{

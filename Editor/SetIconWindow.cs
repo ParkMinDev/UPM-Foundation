@@ -4,11 +4,12 @@ using UnityEditor;
 using UnityEngine;
 using Object = UnityEngine.Object;
 
-namespace ParkMinPackages.Foundation.Editor
+namespace ParkMinDev.UPM.Foundation.Editor
 {
+	[UnityEngine.Scripting.APIUpdating.MovedFrom(true, sourceNamespace: "ParkMinPackages.Foundation.Editor", sourceAssembly: "ParkMinPackages.Foundation.Editor", sourceClassName: "SetIconWindow")]
 	public sealed class SetIconWindow : EditorWindow
 	{
-		const string MenuPath = "Assets/" + nameof(ParkMinPackages) + "/스크립트 아이콘 변경";
+		const string MenuPath = "Assets/" + nameof(ParkMinDev) + "/스크립트 아이콘 변경";
 		const float CellSize = 72f;
 		const float WindowPadding = 20f;
 

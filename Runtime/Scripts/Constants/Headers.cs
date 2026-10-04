@@ -1,4 +1,4 @@
-namespace ParkMinPackages.Foundation.Constants
+namespace ParkMinDev.UPM.Foundation.Constants
 {
 	public static class Headers
 	{

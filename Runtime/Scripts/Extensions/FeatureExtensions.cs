@@ -1,9 +1,9 @@
 using System;
-using ParkMinPackages.Foundation.Components;
-using ParkMinPackages.Foundation.Interfaces;
+using ParkMinDev.UPM.Foundation.Components;
+using ParkMinDev.UPM.Foundation.Interfaces;
 using UnityEngine;
 
-namespace ParkMinPackages.Foundation.Extensions
+namespace ParkMinDev.UPM.Foundation.Extensions
 {
 	public static class FeatureExtensions
 	{

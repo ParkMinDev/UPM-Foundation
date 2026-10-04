@@ -8,14 +8,16 @@ using UnityEditor;
 using UnityEngine.Serialization;
 #endif
 
-namespace ParkMinPackages.Foundation.Components.Helpers
+namespace ParkMinDev.UPM.Foundation.Components.Helpers
 {
+	[UnityEngine.Scripting.APIUpdating.MovedFrom(true, sourceNamespace: "ParkMinPackages.Foundation.Components.Helpers", sourceAssembly: "ParkMinPackages.Foundation", sourceClassName: "HierarchyHelper")]
 	[ExecuteAlways]
 	[DisallowMultipleComponent]
 	public sealed class HierarchyHelper : MonoBehaviour
 	{
 #if UNITY_EDITOR
 		// - Class Struct Enum -
+		[UnityEngine.Scripting.APIUpdating.MovedFrom(true, sourceNamespace: "ParkMinPackages.Foundation.Components.Helpers", sourceAssembly: "ParkMinPackages.Foundation", sourceClassName: "HierarchyHelper+HierarchyExpansionController")]
 		[Serializable]
 		public sealed class HierarchyExpansionController
 		{
@@ -98,6 +100,7 @@ namespace ParkMinPackages.Foundation.Components.Helpers
 			}
 		}
 
+		[UnityEngine.Scripting.APIUpdating.MovedFrom(true, sourceNamespace: "ParkMinPackages.Foundation.Components.Helpers", sourceAssembly: "ParkMinPackages.Foundation", sourceClassName: "HierarchyHelper+SceneVisibilityController")]
 		[Serializable]
 		public sealed class SceneVisibilityController
 		{

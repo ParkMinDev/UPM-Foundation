@@ -1,10 +1,11 @@
 using System;
-using ParkMinPackages.Foundation.Interfaces;
+using ParkMinDev.UPM.Foundation.Interfaces;
 using R3;
 using UnityEngine;
 
-namespace ParkMinPackages.Foundation.Components
+namespace ParkMinDev.UPM.Foundation.Components
 {
+	[UnityEngine.Scripting.APIUpdating.MovedFrom(true, sourceNamespace: "ParkMinPackages.Foundation.Components", sourceAssembly: "ParkMinPackages.Foundation", sourceClassName: "ExtendedBehaviour")]
 	public abstract class ExtendedBehaviour : MonoBehaviour, IDisposable
 	{
 		//Public Methods-------------------------------------------------------------------------------------------

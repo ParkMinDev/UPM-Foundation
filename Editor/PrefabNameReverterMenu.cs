@@ -1,7 +1,7 @@
 using UnityEditor;
 using UnityEngine;
 
-namespace ParkMinPackages.Foundation.Editor
+namespace ParkMinDev.UPM.Foundation.Editor
 {
 	internal static class PrefabNameReverterMenu
 	{

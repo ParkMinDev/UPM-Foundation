@@ -2,7 +2,7 @@ using System;
 using System.Threading;
 using UnityEngine;
 
-namespace ParkMinPackages.Foundation.Expansions
+namespace ParkMinDev.UPM.Foundation.Expansions
 {
 	public static class AwaitableExpansions
 	{

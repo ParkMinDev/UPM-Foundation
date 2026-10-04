@@ -1,7 +1,8 @@
 using UnityEngine;
 
-namespace ParkMinPackages.Foundation.Components
+namespace ParkMinDev.UPM.Foundation.Components
 {
+	[UnityEngine.Scripting.APIUpdating.MovedFrom(true, sourceNamespace: "ParkMinPackages.Foundation.Components", sourceAssembly: "ParkMinPackages.Foundation", sourceClassName: "TargetFrameSetting")]
 	public class TargetFrameSetting : MonoBehaviour
 	{
 		void Awake() {

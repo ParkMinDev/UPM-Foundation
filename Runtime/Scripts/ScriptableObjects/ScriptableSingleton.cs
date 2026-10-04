@@ -6,7 +6,7 @@ using System.Reflection;
 using UnityEditor;
 #endif
 
-namespace ParkMinPackages.Foundation.ScriptableObjects
+namespace ParkMinDev.UPM.Foundation.ScriptableObjects
 {
 #if UNITY_EDITOR
 	internal sealed class ScriptableSingletonAssetCreator : AssetPostprocessor
@@ -34,6 +34,7 @@ namespace ParkMinPackages.Foundation.ScriptableObjects
 	}
 #endif
 
+	[UnityEngine.Scripting.APIUpdating.MovedFrom(true, sourceNamespace: "ParkMinPackages.Foundation.ScriptableObjects", sourceAssembly: "ParkMinPackages.Foundation", sourceClassName: "ScriptableSingleton`1")]
 	public abstract class ScriptableSingleton<T> : ScriptableObject where T : ScriptableSingleton<T>
 	{
 		// - Public - 

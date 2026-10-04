@@ -1,6 +1,6 @@
 {
-  "name": "ParkMinPackages.Foundation",
-  "rootNamespace": "ParkMinPackages.Foundation",
+  "name": "ParkMinDev.UPM.Foundation",
+  "rootNamespace": "ParkMinDev.UPM.Foundation",
   "references": [
     "R3.Unity"
   ],

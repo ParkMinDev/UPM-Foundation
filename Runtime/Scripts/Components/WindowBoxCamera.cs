@@ -1,8 +1,9 @@
 using System;
 using UnityEngine;
 
-namespace ParkMinPackages.Foundation.Components
+namespace ParkMinDev.UPM.Foundation.Components
 {
+	[UnityEngine.Scripting.APIUpdating.MovedFrom(true, sourceNamespace: "ParkMinPackages.Foundation.Components", sourceAssembly: "ParkMinPackages.Foundation", sourceClassName: "WindowBoxCamera")]
 	[ExecuteAlways]
 	[RequireComponent(typeof(Camera))]
 	public sealed class WindowBoxCamera : MonoBehaviour

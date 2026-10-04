@@ -1,6 +1,6 @@
 using UnityEngine;
 
-namespace ParkMinPackages.Foundation.Tests
+namespace ParkMinDev.UPM.Foundation.Tests
 {
 	public sealed class SerializableValueTestBehaviour : MonoBehaviour, ISerializableValueTest
 	{

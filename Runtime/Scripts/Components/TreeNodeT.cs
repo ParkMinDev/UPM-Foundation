@@ -1,7 +1,8 @@
 using System.Collections.Generic;
 
-namespace ParkMinPackages.Foundation.Components
+namespace ParkMinDev.UPM.Foundation.Components
 {
+	[UnityEngine.Scripting.APIUpdating.MovedFrom(true, sourceNamespace: "ParkMinPackages.Foundation.Components", sourceAssembly: "ParkMinPackages.Foundation", sourceClassName: "TreeNode`1")]
 	public abstract class TreeNode<T> : ExtendedBehaviour where T : TreeNode<T>
 	{
 		// ===================== Public API =====================

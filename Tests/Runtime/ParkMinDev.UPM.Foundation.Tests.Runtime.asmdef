@@ -1,18 +1,18 @@
 {
-  "name": "ParkMinPackages.Foundation.Editor",
-  "rootNamespace": "ParkMinPackages.Foundation.Editor",
+  "name": "ParkMinDev.UPM.Foundation.Tests.Runtime",
+  "rootNamespace": "ParkMinDev.UPM.Foundation.Tests",
   "references": [
     "GUID:71a72178c26810b4fb6e1516407e5558"
   ],
-  "includePlatforms": [
-    "Editor"
-  ],
+  "includePlatforms": [],
   "excludePlatforms": [],
   "allowUnsafeCode": false,
   "overrideReferences": false,
   "precompiledReferences": [],
-  "autoReferenced": true,
-  "defineConstraints": [],
+  "autoReferenced": false,
+  "defineConstraints": [
+    "UNITY_INCLUDE_TESTS"
+  ],
   "versionDefines": [],
   "noEngineReferences": false
 }
