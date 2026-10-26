@@ -1,199 +1,162 @@
 using UnityEngine;
 #if UNITY_EDITOR
 using System;
-using System.Collections.Generic;
+using System.Linq;
 using System.Reflection;
+using ParkMinDev.UPM.Foundation.Constants;
 using Sirenix.OdinInspector;
 using UnityEditor;
-using UnityEngine.Serialization;
+using UnityEditor.SceneManagement;
 #endif
 
 namespace ParkMinDev.UPM.Foundation.Components.Helpers
 {
-	[UnityEngine.Scripting.APIUpdating.MovedFrom(true, sourceNamespace: "ParkMinPackages.Foundation.Components.Helpers", sourceAssembly: "ParkMinPackages.Foundation", sourceClassName: "HierarchyHelper")]
-	[ExecuteAlways]
-	[DisallowMultipleComponent]
-	public sealed class HierarchyHelper : MonoBehaviour
-	{
+    [ExecuteAlways, DisallowMultipleComponent]
+    public sealed class HierarchyHelper : MonoBehaviour
+    {
 #if UNITY_EDITOR
-		// - Class Struct Enum -
-		[UnityEngine.Scripting.APIUpdating.MovedFrom(true, sourceNamespace: "ParkMinPackages.Foundation.Components.Helpers", sourceAssembly: "ParkMinPackages.Foundation", sourceClassName: "HierarchyHelper+HierarchyExpansionController")]
-		[Serializable]
-		public sealed class HierarchyExpansionController
-		{
-			// - Public Methods -
-			public void Initialize(HierarchyHelper owner) {
-				_owner = owner;
-			}
-			public void ApplyOnceDelayed() {
-				if (!_enabled || _owner == null) {
-					return;
-				}
+        // - Public Methods -
+        public void ExpandOnlyTargetChildren() {
+            Transform[] targets = _autoExpandTargets.Where(child => child != null && child != gameObject && child.transform.IsChildOf(transform)).Select(child => child.transform).Distinct().ToArray();
+            if (targets.Length == 0)
+                return;
+            if (SetExpandedMethod == null || SetExpandedRecursiveMethod == null) {
+                Debug.LogWarning("Hierarchy 창의 접힘 상태를 변경하는 기능을 찾지 못했습니다.", this);
+                return;
+            }
 
-				EditorApplication.delayCall -= ApplyOnce;
-				EditorApplication.delayCall += ApplyOnce;
-			}
-			public void Release() {
-				EditorApplication.delayCall -= ApplyOnce;
-				_owner = null;
-			}
+            // 지정한 경로들을 펼치고 선택은 유지
+            Transform[] path = targets.SelectMany(child => child.GetComponentsInParent<Transform>(true).Reverse()).Distinct().ToArray();
+            foreach (UnityEngine.Object window in Resources.FindObjectsOfTypeAll(HierarchyWindowType)) {
+                if (window == null)
+                    continue;
+                SetExpandedRecursiveMethod.Invoke(window, new object[] { gameObject.GetEntityId(), false });
+                foreach (Transform item in path)
+                    SetExpandedMethod.Invoke(window, new object[] { item.gameObject.GetEntityId(), true });
+            }
+            EditorApplication.RepaintHierarchyWindow();
+        }
 
-			// - Internals -
-			[SerializeField] bool _enabled;
-			[SerializeField, ShowIf(nameof(_enabled))] Transform _targetChild;
-			[SerializeField, ShowIf(nameof(_enabled)), LabelText("씬 진입 시 자동 적용"), FormerlySerializedAs("_autoExpand")] bool _applyOnSceneOpen;
-			[NonSerialized] HierarchyHelper _owner;
+        // - Handler -
+        void OnEnable() {
+            EditorApplication.hierarchyChanged += ScheduleVisibility;
+            ScheduleVisibility();
+        }
 
-			[Button("지정 자식만 펼치기"), ShowIf(nameof(_enabled))]
-			void ExpandOnlyTargetChild() {
-				ApplyHierarchyState(true);
-			}
+        void OnDisable() {
+            EditorApplication.hierarchyChanged -= ScheduleVisibility;
+            EditorApplication.delayCall -= ApplyVisibility;
+            foreach (SceneVisibilityController controller in _appliedVisibilityControllers)
+                controller.Restore();
+            _appliedVisibilityControllers = Array.Empty<SceneVisibilityController>();
+        }
 
-			void ApplyOnce() {
-				EditorApplication.delayCall -= ApplyOnce;
-				if (_applyOnSceneOpen && IsTargetValid()) {
-					ApplyHierarchyState(false);
-				}
-			}
+        void OnValidate() {
+            ScheduleVisibility();
+        }
 
-			bool IsTargetValid() {
-				return _owner != null && _targetChild != null && _targetChild != _owner.transform && _targetChild.IsChildOf(_owner.transform);
-			}
+        // - Private & Protected -
+        [SerializeField] GameObject[] _autoExpandTargets = Array.Empty<GameObject>();
+        [SerializeField] SceneVisibilityController[] _sceneVisibilityControllers = Array.Empty<SceneVisibilityController>();
 
-			void ApplyHierarchyState(bool selectTarget) {
-				if (!IsTargetValid()) {
-					Debug.LogError("지정한 오브젝트는 HierarchyHelper가 붙은 오브젝트의 자식이어야 합니다.", _owner);
-					return;
-				}
+        SceneVisibilityController[] _appliedVisibilityControllers = Array.Empty<SceneVisibilityController>();
 
-				Type hierarchyWindowType = typeof(UnityEditor.Editor).Assembly.GetType("UnityEditor.SceneHierarchyWindow");
-				MethodInfo setExpandedRecursiveMethod = hierarchyWindowType?.GetMethod("SetExpandedRecursive", BindingFlags.Instance | BindingFlags.Public | BindingFlags.NonPublic);
-				MethodInfo setExpandedMethod = hierarchyWindowType?.GetMethod("SetExpanded", BindingFlags.Instance | BindingFlags.Public | BindingFlags.NonPublic, null, new Type[] { typeof(EntityId), typeof(bool) }, null);
-				if (hierarchyWindowType == null || setExpandedRecursiveMethod == null || setExpandedMethod == null) {
-					Debug.LogError("Hierarchy 창의 접힘 상태를 변경하는 기능을 찾지 못했습니다.", _owner);
-					return;
-				}
+        void ScheduleVisibility() {
+            EditorApplication.delayCall -= ApplyVisibility;
+            if (isActiveAndEnabled && !EditorApplication.isPlayingOrWillChangePlaymode)
+                EditorApplication.delayCall += ApplyVisibility;
+        }
 
-				List<Transform> targetPath = new List<Transform>();
-				Transform currentTransform = _targetChild;
-				while (currentTransform != null) {
-					targetPath.Add(currentTransform);
-					if (currentTransform == _owner.transform) {
-						break;
-					}
-					currentTransform = currentTransform.parent;
-				}
-				targetPath.Reverse();
+        void ApplyVisibility() {
+            if (this == null || !isActiveAndEnabled || EditorApplication.isPlayingOrWillChangePlaymode)
+                return;
+            SceneVisibilityController[] controllers = _sceneVisibilityControllers.Where(controller => controller != null).ToArray();
+            foreach (SceneVisibilityController removed in _appliedVisibilityControllers.Except(controllers))
+                removed.Restore();
+            foreach (SceneVisibilityController controller in controllers)
+                controller.Apply();
+            _appliedVisibilityControllers = controllers;
+            EditorApplication.RepaintHierarchyWindow();
+        }
 
-				UnityEngine.Object[] hierarchyWindows = Resources.FindObjectsOfTypeAll(hierarchyWindowType);
-				for (int i = 0; i < hierarchyWindows.Length; i++) {
-					setExpandedRecursiveMethod.Invoke(hierarchyWindows[i], new object[] { _owner.gameObject.GetEntityId(), false });
-					for (int j = 0; j < targetPath.Count; j++) {
-						setExpandedMethod.Invoke(hierarchyWindows[i], new object[] { targetPath[j].gameObject.GetEntityId(), true });
-					}
-				}
+        // - Class Struct Enum -
+        [Serializable]
+        public sealed class SceneVisibilityController
+        {
+            // - Public Methods -
+            public void Apply() {
+                if (_appliedTarget != _target)
+                    Restore();
+                if (_target == null || !_target.scene.IsValid() || EditorUtility.IsPersistent(_target))
+                    return;
+                SceneVisibilityManager manager = SceneVisibilityManager.instance;
+                if (_appliedTarget == null) {
+                    _wasHidden = manager.IsHidden(_target);
+                    _wasPickingDisabled = manager.IsPickingDisabled(_target);
+                    _appliedTarget = _target;
+                }
+                if (_sceneVisibility)
+                    manager.Show(_target, true);
+                else
+                    manager.Hide(_target, true);
+                if (_scenePicking)
+                    manager.EnablePicking(_target, true);
+                else
+                    manager.DisablePicking(_target, true);
+            }
 
-				if (selectTarget) {
-					Selection.activeGameObject = _targetChild.gameObject;
-					EditorGUIUtility.PingObject(_targetChild.gameObject);
-				}
-			}
-		}
+            public void Restore() {
+                if (_appliedTarget != null) {
+                    SceneVisibilityManager manager = SceneVisibilityManager.instance;
+                    if (_wasHidden)
+                        manager.Hide(_appliedTarget, true);
+                    else
+                        manager.Show(_appliedTarget, true);
+                    if (_wasPickingDisabled)
+                        manager.DisablePicking(_appliedTarget, true);
+                    else
+                        manager.EnablePicking(_appliedTarget, true);
+                }
+                _appliedTarget = null;
+            }
 
-		[UnityEngine.Scripting.APIUpdating.MovedFrom(true, sourceNamespace: "ParkMinPackages.Foundation.Components.Helpers", sourceAssembly: "ParkMinPackages.Foundation", sourceClassName: "HierarchyHelper+SceneVisibilityController")]
-		[Serializable]
-		public sealed class SceneVisibilityController
-		{
-			// - Public Methods -
-			public void Apply(GameObject target) {
-				if (!_enabled) {
-					if (_wasApplied) {
-						Restore(target);
-					}
-					return;
-				}
+            // - Private & Protected -
+            [Header(Headers.Required)]
+            [SerializeField, Required] GameObject _target;
 
-				SetSceneVisibility(target, _sceneVisibility, true);
-				SetScenePicking(target, _scenePicking, true);
-				EditorApplication.RepaintHierarchyWindow();
-				_wasApplied = true;
-			}
-			public void Restore(GameObject target) {
-				SetSceneVisibility(target, true, true);
-				SetScenePicking(target, true, true);
-				EditorApplication.RepaintHierarchyWindow();
-				_wasApplied = false;
-			}
+            [Header(Headers.Settings)]
+            [SerializeField] bool _sceneVisibility = true;
+            [SerializeField] bool _scenePicking = true;
 
-			// - Internals -
-			[SerializeField] bool _enabled;
-			[SerializeField, ShowIf(nameof(_enabled))] bool _sceneVisibility = true;
-			[SerializeField, ShowIf(nameof(_enabled))] bool _scenePicking = true;
-			[NonSerialized] bool _wasApplied;
+            [NonSerialized] GameObject _appliedTarget;
+            [NonSerialized] bool _wasHidden;
+            [NonSerialized] bool _wasPickingDisabled;
+        }
 
-			void SetSceneVisibility(GameObject target, bool visible, bool includeDescendants) {
-				SceneVisibilityManager manager = SceneVisibilityManager.instance;
-				if (visible) {
-					manager.Show(target, includeDescendants);
-				}
-				else {
-					manager.Hide(target, includeDescendants);
-				}
-			}
+        // - Private Statics -
+        static readonly Type HierarchyWindowType = typeof(UnityEditor.Editor).Assembly.GetType("UnityEditor.SceneHierarchyWindow");
+        static readonly MethodInfo SetExpandedMethod = HierarchyWindowType?.GetMethod("SetExpanded", BindingFlags.Instance | BindingFlags.Public | BindingFlags.NonPublic, null, new[] { typeof(EntityId), typeof(bool) }, null);
+        static readonly MethodInfo SetExpandedRecursiveMethod = HierarchyWindowType?.GetMethod("SetExpandedRecursive", BindingFlags.Instance | BindingFlags.Public | BindingFlags.NonPublic, null, new[] { typeof(EntityId), typeof(bool) }, null);
 
-			void SetScenePicking(GameObject target, bool visible, bool includeDescendants) {
-				SceneVisibilityManager manager = SceneVisibilityManager.instance;
-				if (visible) {
-					manager.EnablePicking(target, includeDescendants);
-				}
-				else {
-					manager.DisablePicking(target, includeDescendants);
-				}
-			}
-		}
+        [InitializeOnLoadMethod]
+        static void InitializeSelectionHandler() {
+            Selection.selectionChanged -= OnSelectionChanged;
+            Selection.selectionChanged += OnSelectionChanged;
+        }
 
-		// - Handler -
-		void OnEnable() {
-			_hierarchyExpansionController.Initialize(this);
-			_hierarchyExpansionController.ApplyOnceDelayed();
-			_sceneVisibilityController.Apply(gameObject);
-			EditorApplication.update -= HandleEditorUpdate;
-			EditorApplication.update += HandleEditorUpdate;
-		}
-		void OnDisable() {
-			EditorApplication.update -= HandleEditorUpdate;
-			_hierarchyExpansionController.Release();
-			_sceneVisibilityController.Restore(gameObject);
-		}
-		void OnDestroy() {
-			EditorApplication.update -= HandleEditorUpdate;
-			_hierarchyExpansionController.Release();
-			_sceneVisibilityController.Restore(gameObject);
-		}
-		void OnTransformChildrenChanged() {
-			_sceneVisibilityController.Apply(gameObject);
-		}
-		void OnValidate() {
-			_hierarchyExpansionController.Initialize(this);
-			_sceneVisibilityController.Apply(gameObject);
-		}
+        static void OnSelectionChanged() {
+            EditorApplication.delayCall -= ExpandSelected;
+            EditorApplication.delayCall += ExpandSelected;
+        }
 
-		// - Internals -
-		[SerializeField] HierarchyExpansionController _hierarchyExpansionController = new HierarchyExpansionController();
-		[SerializeField] SceneVisibilityController _sceneVisibilityController = new SceneVisibilityController();
-
-		void HandleEditorUpdate() {
-			if (this == null) {
-				EditorApplication.update -= HandleEditorUpdate;
-				return;
-			}
-
-			if (!isActiveAndEnabled || Application.isPlaying) {
-				return;
-			}
-
-			_sceneVisibilityController.Apply(gameObject);
-		}
+        static void ExpandSelected() {
+            if (PrefabStageUtility.GetCurrentPrefabStage() != null)
+                return;
+            GameObject selected = Selection.activeGameObject;
+            if (selected == null || !selected.scene.IsValid() || PrefabStageUtility.GetPrefabStage(selected) != null || !selected.TryGetComponent(out HierarchyHelper helper) || !helper.enabled)
+                return;
+            helper.ExpandOnlyTargetChildren();
+        }
 #endif
-	}
+    }
 }

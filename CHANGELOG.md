@@ -4,6 +4,15 @@ All notable changes to this package will be documented in this file.
 The format is based on [Keep a Changelog](http://keepachangelog.com/en/1.0.0/)
 and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.html).
 
+## [12.0.0] - 2026-10-26
+
+### Added
+- Add DestroyOnAwake to disable and destroy selected objects/components during Awake, then remove itself, preserving the imported script GUID.
+
+### Changed
+- Breaking: replace HierarchyHelper expansion-controller settings with direct GameObject targets and visibility-controller arrays; remove legacy migration support.
+- Expand specified child paths on selection while retaining owner selection and skipping prefab editing; restore visibility and picking state when settings are removed.
+
 ## [11.0.0] - 2026-10-04
 
 ### Changed
