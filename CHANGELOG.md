@@ -7,7 +7,7 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 ## [12.0.0] - 2026-10-26
 
 ### Added
-- Add DestroyOnAwake to disable and destroy selected objects/components during Awake, then remove itself, preserving the imported script GUID.
+- Add DestroyOnAwake to disable selected GameObjects and MonoBehaviours before scheduling their destruction, directly schedule other components for destruction, then remove itself, preserving the imported script GUID.
 
 ### Changed
 - Breaking: replace HierarchyHelper expansion-controller settings with direct GameObject targets and visibility-controller arrays; remove legacy migration support.

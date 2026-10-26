@@ -23,27 +23,8 @@ namespace ParkMinDev.UPM.Foundation.Components
                     case Transform:
                         Debug.LogWarning("Transform은 단독으로 삭제할 수 없습니다. 해당 GameObject를 Game Objects 목록에 지정해주세요.", this);
                         continue;
-                    case Behaviour behaviour:
+                    case MonoBehaviour behaviour:
                         behaviour.enabled = false;
-                        break;
-                    case Renderer renderer:
-                        renderer.enabled = false;
-                        break;
-                    case Collider collider:
-                        collider.enabled = false;
-                        break;
-                    case Rigidbody rigidbody:
-                        rigidbody.detectCollisions = false;
-                        rigidbody.isKinematic = true;
-                        break;
-                    case Rigidbody2D rigidbody2D:
-                        rigidbody2D.simulated = false;
-                        break;
-                    case CanvasRenderer canvasRenderer:
-                        canvasRenderer.cull = true;
-                        break;
-                    case ParticleSystem particles:
-                        particles.Stop(true, ParticleSystemStopBehavior.StopEmittingAndClear);
                         break;
                 }
                 Destroy(target);
