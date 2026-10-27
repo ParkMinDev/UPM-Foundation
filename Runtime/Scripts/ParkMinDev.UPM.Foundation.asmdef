@@ -11,6 +11,37 @@
   "precompiledReferences": [],
   "autoReferenced": true,
   "defineConstraints": [],
-  "versionDefines": [],
+  "versionDefines": [
+    {
+      "name": "com.unity.modules.physics",
+      "expression": "1.0.0",
+      "define": "FOUNDATION_HAS_PHYSICS"
+    },
+    {
+      "name": "com.unity.modules.physics2d",
+      "expression": "1.0.0",
+      "define": "FOUNDATION_HAS_PHYSICS_2D"
+    },
+    {
+      "name": "com.unity.modules.cloth",
+      "expression": "1.0.0",
+      "define": "FOUNDATION_HAS_CLOTH"
+    },
+    {
+      "name": "com.unity.modules.particlesystem",
+      "expression": "1.0.0",
+      "define": "FOUNDATION_HAS_PARTICLE_SYSTEM"
+    },
+    {
+      "name": "com.unity.modules.ui",
+      "expression": "1.0.0",
+      "define": "FOUNDATION_HAS_UI"
+    },
+    {
+      "name": "com.unity.modules.wind",
+      "expression": "1.0.0",
+      "define": "FOUNDATION_HAS_WIND"
+    }
+  ],
   "noEngineReferences": false
 }
